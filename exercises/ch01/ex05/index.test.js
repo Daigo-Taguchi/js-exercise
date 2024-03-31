@@ -17,6 +17,4 @@ describe("math", () => {
       expect(abs(0)).toBe(0);
     });
   });
-
-  // 以下に sum, factorial のテストを記載せよ
 });

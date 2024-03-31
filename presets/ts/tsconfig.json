@@ -22,6 +22,6 @@
   },
   // package.jsonでtype: "module"を指定しているので、ts-nodeで実行する場合もesmである必要がある
   "ts-node": {
-    "esm": true
+    "esm": true,
   }
 }

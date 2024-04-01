@@ -1,4 +1,4 @@
-import { substring } from "./index.ts"; // typescript で書く場合は "./index.ts"
+import { slice, substring } from "./index.ts"; // typescript で書く場合は "./index.ts"
 
 // function substringTestCase(str: string, indexStart: number, indexEnd?: number) {
 //   return [str, indexStart, indexEnd, str.substring(indexStart, indexEnd)];
@@ -13,9 +13,14 @@ function substringTestCase(str: string, indexStart: number, indexEnd?: number) {
   };
 }
 
-// function sliceTestCase(str, indexStart, indexEnd) {
-//   return [str, indexStart, indexEnd, str.slice(indexStart, indexEnd)];
-// }
+function sliceTestCase(str: string, indexStart?: number, indexEnd?: number) {
+  return {
+    str,
+    indexStart,
+    indexEnd,
+    expected: str.slice(indexStart, indexEnd),
+  };
+}
 
 // function padStartTestCase(str, targetLength, padString) {
 //   return [str, targetLength, padString, str.padStart(targetLength, padString)];
@@ -51,28 +56,28 @@ test.each([
 });
 
 // tests for slice
-// test.each([
-//   sliceTestCase(str),
-//   sliceTestCase(str, 2),
-//   sliceTestCase(str, -3),
-//   sliceTestCase(str, 100),
-//   sliceTestCase(str, -100),
-//   sliceTestCase(str, 0, str.length),
-//   sliceTestCase(str, str.length, 0),
-//   sliceTestCase(str, 2, 7),
-//   sliceTestCase(str, 7, 2),
-//   sliceTestCase(str, 3, 3),
-//   sliceTestCase(str, 2, 100),
-//   sliceTestCase(str, 100, 2),
-//   sliceTestCase(str, 2, -3),
-//   sliceTestCase(str, -3, 2),
-//   sliceTestCase(str, 2, NaN),
-//   sliceTestCase(str, NaN, 2),
-//   sliceTestCase(str, 2.3, 6.7),
-//   sliceTestCase(str, 2, Infinity),
-// ])("slice(%p, %p, %p) => %p", (str, indexStart, indexEnd, expected) => {
-//   expect(slice(str, indexStart, indexEnd)).toBe(expected);
-// });
+test.only.each([
+  sliceTestCase(str),
+  sliceTestCase(str, 2),
+  sliceTestCase(str, -3),
+  sliceTestCase(str, 100),
+  sliceTestCase(str, -100),
+  sliceTestCase(str, 0, str.length),
+  sliceTestCase(str, str.length, 0),
+  sliceTestCase(str, 2, 7),
+  sliceTestCase(str, 7, 2),
+  sliceTestCase(str, 3, 3),
+  sliceTestCase(str, 2, 100),
+  sliceTestCase(str, 100, 2),
+  sliceTestCase(str, 2, -3),
+  sliceTestCase(str, -3, 2),
+  sliceTestCase(str, 2, NaN),
+  sliceTestCase(str, NaN, 2),
+  sliceTestCase(str, 2.3, 6.7),
+  sliceTestCase(str, 2, Infinity),
+])("slice(%p, %p, %p) => %p", ({ str, indexStart, indexEnd, expected }) => {
+  expect(slice(str, indexStart, indexEnd)).toBe(expected);
+});
 
 // tests for padStart
 // test.each([

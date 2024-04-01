@@ -1,9 +1,5 @@
 import { padStart, slice, substring, trim } from "./index.ts"; // typescript で書く場合は "./index.ts"
 
-// function substringTestCase(str: string, indexStart: number, indexEnd?: number) {
-//   return [str, indexStart, indexEnd, str.substring(indexStart, indexEnd)];
-// }
-
 function substringTestCase(str: string, indexStart: number, indexEnd?: number) {
   return {
     str,

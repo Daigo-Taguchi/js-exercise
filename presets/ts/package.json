@@ -6,7 +6,7 @@
     "test": "jest --runInBand",
     "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
-    "ts-node": "node --no-warnings=ExperimentalWarning --loader ts-node/esm"
+    "ts-node": "npx node --loader ts-node/esm"
   },
   "author": "",
   "private": true,

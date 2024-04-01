@@ -1,3 +1,4 @@
+// str の文字列の indexStart から indexEnd の間の文字を抜き出す
 export function substring(str: string, indexStart: number, indexEnd?: number) {
   // NaN の場合と、0 より小さい数が入ってきた場合は 0 として扱う
   // -Infinity が入ってきた場合もここで 0 が入る (-Infinity < 0 は true)
@@ -35,6 +36,7 @@ export function substring(str: string, indexStart: number, indexEnd?: number) {
   return result;
 }
 
+// str の文字列の indexStart から indexEnd の間の文字を抜き出す
 // indexStart の位置から indexEnd の1つ手前までの文字列を返す
 // indexStart が文字列の長さ以上の場合は空文字列を返す
 // indexStart が省略、undefined、数値に変換できない、場合は 0 を入れる
@@ -58,7 +60,7 @@ export function slice(
 
   // indexEnd が NaN のときは 0 を入れる
   end = Number.isNaN(indexEnd) ? 0 : end;
-  console.log(start, end);
+
   // indexStart が文字列の長さ以上の場合は空文字列を返す
   if (start >= str.length) {
     return "";
@@ -77,8 +79,6 @@ export function slice(
     return "";
   }
 
-  console.log(start, end);
-
   // 1文字ずつ探索して、文字列を作る
   let result = ``;
   for (let i = start; i < end; i++) {
@@ -87,12 +87,56 @@ export function slice(
   return result;
 }
 
-// export function padStart(str, targetLength, padString) {
-//   // TODO: ここを実装しなさい
-//   return "TODO";
-// }
+// str の文字列に targetLength の長さになるように、padString を文字列の左から埋める
+// targetLength が文字列より短い場合、そのまま文字列を返す
+// padString が未指定の場合、Unicode の空白文字(U+0020) を左から埋める
+export function padStart(
+  str: string,
+  targetLength: number,
+  padString?: string
+) {
+  // targetLength が文字列より短い場合、そのまま文字列を返す
+  if (targetLength < str.length) {
+    return str;
+  }
+  let result = "";
+  if (!padString) {
+    for (let i = 0; i < targetLength - str.length; i++) {
+      result += `\u{0020}`;
+    }
+  } else {
+    for (let i = 0; i < targetLength - str.length; i++) {
+      let index = i % padString.length;
+      result += padString.charAt(index);
+    }
+  }
+  return result + str;
+}
 
-// export function trim(str) {
-//   // TODO: ここを実装しなさい
-//   return "TODO";
-// }
+// 文字列の前後の空白を削除する関数
+export function trim(str: string) {
+  let startIndex = 0;
+  let endIndex = 0;
+  // 先頭の文字の index を検索
+  for (let i = 0; i < str.length; i++) {
+    if (str.charAt(i) !== " ") {
+      startIndex = i;
+      break;
+    }
+  }
+
+  // 最後の文字の index を検索
+  for (let i = str.length - 1; i >= 0; i--) {
+    if (str.charAt(i) !== " ") {
+      endIndex = i;
+      break;
+    }
+  }
+
+  // 検索した startIndex から endIndex の間の文字を取得
+  let result = "";
+  for (let i = startIndex; i <= endIndex; i++) {
+    result += str.charAt(i);
+  }
+  return result;
+}

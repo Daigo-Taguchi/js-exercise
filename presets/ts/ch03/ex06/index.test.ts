@@ -1,4 +1,4 @@
-import { slice, substring } from "./index.ts"; // typescript で書く場合は "./index.ts"
+import { padStart, slice, substring, trim } from "./index.ts"; // typescript で書く場合は "./index.ts"
 
 // function substringTestCase(str: string, indexStart: number, indexEnd?: number) {
 //   return [str, indexStart, indexEnd, str.substring(indexStart, indexEnd)];
@@ -22,13 +22,22 @@ function sliceTestCase(str: string, indexStart?: number, indexEnd?: number) {
   };
 }
 
-// function padStartTestCase(str, targetLength, padString) {
-//   return [str, targetLength, padString, str.padStart(targetLength, padString)];
-// }
+function padStartTestCase(
+  str: string,
+  targetLength: number,
+  padString?: string
+) {
+  return {
+    str,
+    targetLength,
+    padString,
+    expected: str.padStart(targetLength, padString),
+  };
+}
 
-// function trimTestCase(str) {
-//   return [str, str.trim()];
-// }
+function trimTestCase(str: string) {
+  return [str, str.trim()];
+}
 
 const str = "Hello World!";
 
@@ -56,7 +65,7 @@ test.each([
 });
 
 // tests for slice
-test.only.each([
+test.each([
   sliceTestCase(str),
   sliceTestCase(str, 2),
   sliceTestCase(str, -3),
@@ -80,21 +89,24 @@ test.only.each([
 });
 
 // tests for padStart
-// test.each([
-//   padStartTestCase("abc", 10),
-//   padStartTestCase("abcdefghijklmn", 10),
-//   padStartTestCase("abc", -3),
-//   padStartTestCase("abc", 10, "123"),
-// ])("padStart(%p, %p, %p) => %p", (str, targetLength, padString, expected) => {
-//   expect(padStart(str, targetLength, padString)).toBe(expected);
-// });
+test.each([
+  padStartTestCase("abc", 10),
+  padStartTestCase("abcdefghijklmn", 10),
+  padStartTestCase("abc", -3),
+  padStartTestCase("abc", 10, "123"),
+])(
+  "padStart(%p, %p, %p) => %p",
+  ({ str, targetLength, padString, expected }) => {
+    expect(padStart(str, targetLength, padString)).toBe(expected);
+  }
+);
 
 // tests for trim
-// test.each([
-//   trimTestCase("   Hello World!  "),
-//   trimTestCase("   Hello World!"),
-//   trimTestCase("Hello World!   "),
-//   trimTestCase("Hello World!"),
-// ])("trim(%p) => %p", (str, expected) => {
-//   expect(trim(str)).toBe(expected);
-// });
+test.each([
+  trimTestCase("   Hello World!  "),
+  trimTestCase("   Hello World!"),
+  trimTestCase("Hello World!   "),
+  trimTestCase("Hello World!"),
+])("trim(%p) => %p", (str, expected) => {
+  expect(trim(str)).toBe(expected);
+});

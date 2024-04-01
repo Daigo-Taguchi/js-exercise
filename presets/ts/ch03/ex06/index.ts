@@ -35,7 +35,6 @@ export function substring(str: string, indexStart: number, indexEnd?: number) {
   return result;
 }
 
-// test
 // export function slice(str, indexStart, indexEnd) {
 //   // TODO: ここを実装しなさい
 //   return "TODO";

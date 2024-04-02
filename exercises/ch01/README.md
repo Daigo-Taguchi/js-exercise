@@ -22,8 +22,6 @@ javascript:alert("Hello, World!")
 
 **参考**: [Bookmarklet という一番身近な自動化技術](https://blog.jxck.io/entries/2018-01-12/let-it-bookmarklet.html#bookmarklet)
 
-「Hello World!」と記載されている alert のポップアップが表示される
-
 ## 問題 1.4 🖋️
 
 以下の内容を index.html に保存し、Web ブラウザで開きなさい。

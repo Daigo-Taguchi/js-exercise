@@ -1,0 +1,2 @@
+Windows: NFC
+macOS: NFD

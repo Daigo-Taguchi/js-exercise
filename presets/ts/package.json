@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest --runInBand",
     "lint": "eslint . --max-warnings=0",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "ts-node": "npx node --loader ts-node/esm"
   },
   "author": "",
   "private": true,

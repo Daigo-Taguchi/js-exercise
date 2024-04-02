@@ -1,7 +1,7 @@
 // import { abs, sum, factorial } from "./index.js";
 
 // TypeScript の場合は以下:
-import { abs, sum, factorial, fib } from "./index.ts";
+import { abs, sum, factorial } from "./index.ts";
 
 describe("math", () => {
   describe("abs", () => {
@@ -63,24 +63,6 @@ describe("math", () => {
 
     it("invalid case when n is not integer (n = 3.14)", () => {
       expect(factorial(3.14)).toBe(null);
-    });
-  });
-
-  describe("fib", () => {
-    it("valid case when n = 5", () => {
-      expect(fib(5)).toBe(5);
-    });
-
-    it("valid case when n = 75", () => {
-      expect(fib(75)).toBe(2111485077978050);
-    });
-
-    it("invalid case when n is not integer (n = 3.14)", () => {
-      expect(fib(3.14)).toBe(null);
-    });
-
-    it("invalid case when n < 0", () => {
-      expect(fib(-1)).toBe(null);
     });
   });
 });

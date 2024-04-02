@@ -37,39 +37,3 @@ export function factorial(n: number): number | null {
   }
   return product;
 }
-
-export function fib(num: number): number | null {
-  if (!Number.isInteger(num)) {
-    return null;
-  }
-
-  if (num < 0) {
-    return null;
-  }
-
-  let result: number[] = [];
-  for (let i = 0; i <= num; i++) {
-    if (i === 0) {
-      result[i] = 0;
-    } else if (i === 1) {
-      result[i] = 1;
-    } else {
-      result[i] = result[i - 2] + result[i - 1];
-    }
-  }
-  return result[result.length - 1];
-}
-
-export class Point {
-  private x = 0;
-  private y = 0;
-
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
-
-  public add(point: Point): Point {
-    return new Point(this.x + point.x, this.y + point.y);
-  }
-}

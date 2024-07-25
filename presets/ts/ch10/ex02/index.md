@@ -1,0 +1,3 @@
+- IIFE(Immediately-invoked function expression)
+- AMD(Asynchronous Module Definition)
+- UMD(Universal Module Definition)

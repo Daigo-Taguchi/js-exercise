@@ -14,10 +14,10 @@ function arrayMultiply() {
   resultA.fill(0.0);
   // 問題: ここで resultA に lhsA と rhsA の乗算結果を格納してね
   for (let i = 0; i < N; i++) {
-    for (let j = 0; j < K; j++) {
+    for (let j = 0; j < M; j++) {
       let sum = 0.0;
       for (let k = 0; k < K; k++) {
-        sum += lhsA[K * i + k] * rhsA[M * k + j];
+        sum += lhsA[K * i + j] * rhsA[M * k + j];
       }
       resultA[M * i + j] = sum;
     }
@@ -33,7 +33,7 @@ function typedArrayMultiply() {
   resultB.fill(0.0);
   // 問題: ここで resultB に lhsB と rhsB の乗算結果を格納してね
   for (let i = 0; i < N; i++) {
-    for (let j = 0; j < K; j++) {
+    for (let j = 0; j < M; j++) {
       let sum = 0.0;
       for (let k = 0; k < K; k++) {
         sum += lhsB[K * i + k] * rhsB[M * k + j];

@@ -64,6 +64,12 @@ export function getDaysDifference(startDate: string, endDate: string): number {
   }
 }
 
+/**
+ * 'YYYY-MM-DD'形式の日付とロケールを引数で受け取り、その日の曜日をロケールの形式の文字列で返す
+ * @param dateString
+ * @param locale
+ * @returns
+ */
 export function getWeekDayWithLocale(dateString: string, locale: string) {
   if (!isSimpleDate(dateString)) {
     throw new Error("invalid date format");
@@ -79,12 +85,34 @@ function isSimpleDate(date: string): boolean {
   return regex.test(date);
 }
 
-export function getLastMonth() {
-  const now = new Date();
-  console.log(now.toString());
+/**
+ *
+ * @returns ローカルのタイムゾーンで先月の1日0時00分0秒の Date オブジェクトを返す
+ */
+export function getLastMonth(): Date {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-  const month = now.toString().split(" ")[1];
-  console.log(month);
+  const now = new Date();
+
+  const monthStr = now.toDateString().split(" ")[1];
+  const month = months.findIndex((e) => e === monthStr);
+  const year = Number(now.toString().split(" ")[3]);
+
+  const date = new Date(year, month - 1);
+  return date;
 }
 
 function simpleDateToDate(date: string): Date {
@@ -98,3 +126,5 @@ function simpleDateToDate(date: string): Date {
 
   return new Date(year, month - 1, day);
 }
+
+console.log(getLastMonth());

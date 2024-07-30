@@ -1,4 +1,9 @@
-import { getDays, getDaysDifference, getWeekDayWithLocale } from "./index.ts";
+import {
+  getDays,
+  getDaysDifference,
+  getLastMonth,
+  getWeekDayWithLocale,
+} from "./index.ts";
 
 describe("date test", () => {
   test("getDays", () => {
@@ -37,5 +42,12 @@ describe("date test", () => {
   test("getWeekDayWithLocale", () => {
     expect(getWeekDayWithLocale("2024-07-01", "ja-JP")).toStrictEqual("月曜日");
     expect(getWeekDayWithLocale("2024-07-01", "en-US")).toStrictEqual("Monday");
+  });
+
+  test("getLastMonth", () => {
+    const mockDate = new Date(2022, 3, 10);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    expect(getLastMonth()).toStrictEqual(new Date(2022, 2, 1));
   });
 });

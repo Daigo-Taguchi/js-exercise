@@ -10,11 +10,7 @@ export function* readLines(filePath: string) {
     let bytesRead;
     while ((bytesRead = fs.readSync(fd, buffer, 0, bufferSize, null)) > 0) {
       const chunk = leftOver + buffer.toString("utf8", 0, bytesRead);
-      console.log(`Chunk read: "${chunk}"`);
-
       const lines = chunk.split("\\n");
-      console.log(`Lines split: ${lines.length} - ${lines}`);
-
       leftOver = lines.pop() || "";
 
       for (const line of lines) {

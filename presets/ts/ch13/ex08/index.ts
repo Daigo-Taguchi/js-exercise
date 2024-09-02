@@ -24,15 +24,13 @@ export async function fetchSumOfFileSizes(
   // eslint-disable-next-line no-useless-catch
   try {
     const files = await fsPromises.readdir(path);
-    const sizePromises = files.map(async (file) => {
+    let total = 0;
+    for (const file of files) {
       const filePath = join(path, file);
       const stats = await fsPromises.stat(filePath);
-      return stats.size;
-    });
-
-    const sizes = await Promise.all(sizePromises);
-
-    return sizes.reduce((total, size) => total + size, 0);
+      total += stats.size;
+    }
+    return total;
   } catch (err) {
     throw err;
   }

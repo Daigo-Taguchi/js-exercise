@@ -1,0 +1,4 @@
+{
+  "name": "</p><script>alert('XSS テスト');</script><p>",
+  "age": 50
+}

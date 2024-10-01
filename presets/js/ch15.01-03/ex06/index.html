@@ -1,0 +1,61 @@
+<html lang="ja"></html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>端末情報表示</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      #message {
+        color: red;
+        font-size: 30px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>アクセスありがとうございます</h1>
+    <div id="message">
+      お客様の端末情報が漏洩しています<br>
+    </div>
+    <table>
+      <caption>
+        ご利用中の端末情報
+      </caption>
+      <tbody>
+        <tr>
+          <td>ご利用中のブラウザの種類</td>
+          <td id="browser"></td>
+        </tr>
+        <tr>
+          <td>ご利用中のブラウザのバージョン</td>
+          <td id="browser-version"></td>
+        </tr>
+        <tr>
+          <td>メモリ情報</td>
+          <td id="memory"></td>
+        </tr>
+        <tr>
+          <td>UserAgent</td>
+          <td id="user-agent"></td>
+        </tr>
+      </tbody>
+    </table>
+    <script>
+      const userAgentData = navigator.userAgentData;
+      const memory = navigator.deviceMemory;
+      const memoryText = `${memory}GB`
+      document.getElementById("browser").innerHTML = userAgentData.brands[0].brand;
+      document.getElementById("browser-version").innerHTML = userAgentData.brands[0].version;
+      document.getElementById("memory").innerHTML = memoryText;
+      document.getElementById("user-agent").innerHTML = navigator.userAgent;
+    </script>
+  </body>
+</html>

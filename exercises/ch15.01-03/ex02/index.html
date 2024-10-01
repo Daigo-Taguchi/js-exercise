@@ -1,0 +1,25 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Script Import</title>
+  </head>
+  <body>
+    <h1>Dynamic Script Import Example</h1>
+    <button id="loadScriptBtn">Load Script</button>
+    <script>
+      document
+        .getElementById("loadScriptBtn")
+        .addEventListener("click", async () => {
+          try {
+            const module = await import(
+              "https://daigo-taguchi.github.io/js-exercise-hosting/hosting-module.js"
+            );
+            module.default();
+          } catch (error) {
+            console.error("Error lading script", error);
+          }
+        });
+    </script>
+  </body>
+</html>

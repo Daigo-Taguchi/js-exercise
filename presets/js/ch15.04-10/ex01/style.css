@@ -1,0 +1,126 @@
+/* 背景色とフォント、フォントの色を指定 */
+body {
+  background-color: #a2d9f7; /* ラプラスの青 */
+  font-family: "Arial", sans-serif; /* シンプルなフォント */
+  color: #2c3e50;
+}
+
+/* 新規入力フォームを中央揃えして、margin を 20px 確保する */
+#new-todo-form {
+  text-align: center;
+  margin: 20px;
+}
+
+/*新規入力フォームの横幅と縁、フォントサイズを指定する*/
+#new-todo {
+  width: 70%;
+  padding: 10px;
+  border: 2px solid #2e86c1; /* ラプラスの濃い青 */
+  border-radius: 5px;
+  font-size: 18px;
+  outline: none;
+}
+
+/*新規入力フォームにフォーカスした場合の縁の色を指定する*/
+#new-todo:focus {
+  border-color: #1abc9c; /* 海をイメージした緑 */
+}
+
+/*ボタンの色、フォント、大きさなどを指定する*/
+button {
+  padding: 10px 20px;
+  background-color: #3498db; /* ラプラスの青 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/*ボタンにマウスを乗せたときに変化する色を指定する*/
+button:hover {
+  background-color: #2980b9; /* 濃い青 */
+}
+
+/* 追加した todo リストの幅や位置などを指定する */
+#todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto;
+  max-width: 500px;
+}
+
+/* 追加した todo リストの背景色や幅、透明度などを指定する*/
+li {
+  background-color: #eaf2f8; /* ラプラスの淡い水色 */
+  border: 2px solid #5dade2; /* 濃い青 */
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition:
+    transform 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+}
+
+/* todo リストを完了にしたときに横線を入れて、背景色を変更する*/
+li.completed {
+  text-decoration: line-through;
+  background-color: #d6eaf8; /* 削除された項目はさらに薄い色 */
+}
+
+/* 追加された todo リストのフォントサイズと margin を指定*/
+label {
+  flex: 1;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+/* チェックボックスの大きさやカーソルを置いたときに指になるように指定 */
+.toggle {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* 削除ボタンの背景色やフォント、カーソル、透明度などを指定 */
+.destroy {
+  background-color: #3498db; /* ラプラスの青 */
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* 削除ボタンにオンマウスした際に変化する背景色の設定*/
+.destroy:hover {
+  background-color: #2980b9;
+}
+
+/* 削除ボタンを押したときのエフェクトを指定 */
+@keyframes freezeBeam {
+  0% {
+    filter: brightness(1) blur(0);
+    opacity: 1;
+  }
+  50% {
+    filter: brightness(0.7) blur(2px);
+    transform: scale(1.05);
+  }
+  100% {
+    filter: brightness(0.5) blur(4px);
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/*エフェクトの詳細を指定*/
+li.freeze {
+  animation: freezeBeam 1s forwards; /* エフェクト適用 */
+}

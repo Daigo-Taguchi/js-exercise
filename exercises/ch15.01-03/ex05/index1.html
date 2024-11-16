@@ -4,24 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <!-- Jquery と lodash のライブラリを js 内で利用するので、js を読み込む前に同期的にこれらをダウンロードする必要がある
-    そのため、デフォルトの設定のままにする-->
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <!-- デフォルトの状態では HTML のパースが一時中断 -> js 実行 -> HTML パース の順で実行される
-    そのため、js 実行時にまだ div#100 の要素がないので Hello が描画されない
-    defer を追加することで、HTML の読み込みと並行して js が読み込まれる。
-    HTML のパースが完了したら js が実行される。
-    この設定をすることで、Hello が表示され、読みこみ速度も速くなった
-    
-    参考
-    https://qiita.com/phanect/items/82c85ea4b8f9c373d684
-    -->
-    <script src="index1.js" defer="true"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js
+"></script>
+    <script src="/ch15.01-03/ex05/index1.js"></script>
   </head>
   <body>
     <div hidden id="1">1</div>

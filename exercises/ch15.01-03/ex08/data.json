@@ -1,4 +1,4 @@
 {
-  "name": "<script>alert('XSS 攻撃！！');</script>",
+  "name": "Taro",
   "age": 50
 }

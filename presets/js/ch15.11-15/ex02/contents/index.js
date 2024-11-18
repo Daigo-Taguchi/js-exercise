@@ -214,8 +214,10 @@ async function retryWithExponentialBackoff(func, maxRetry, callback, onError) {
       }
 
       // タイムアウトが発生した場合に呼び出し元に通知
+      // ここで通知することで、タイムアウトが発生して処理が中断した際の制御をできるようにする
+      // (タイムアウトが発生したら、チェックボックスを元に戻すなど)
       if (onError) {
-        onError();
+        onError(error);
       }
     }
   };

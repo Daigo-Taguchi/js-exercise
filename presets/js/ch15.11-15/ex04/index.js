@@ -6,8 +6,10 @@ const tasks = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
   // localStorage からタスクの一覧を JSON オブジェクトで取得する
-  // {tasks: ["hoge","fuga"]} という構造で保存する
+  // {tasks: [{name: "hoge", status: "active"},{name: "fuga", status: "completed"}]}
+  // という構造で保存する
   const taskObj = JSON.parse(localStorage.getItem("tasks"));
+  console.log(taskObj);
   if (taskObj && taskObj.tasks) {
     taskObj.tasks.forEach((task) => {
       tasks.push(task);
@@ -15,10 +17,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const elem = document.createElement("li");
 
       const label = document.createElement("label");
-      label.textContent = task;
+      label.textContent = task.name;
 
       const toggle = document.createElement("input");
       toggle.type = "checkbox";
+      toggle.checked = task.status === "completed";
+
+      label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
 
       const destroy = document.createElement("button");
       destroy.textContent = "❌";
@@ -27,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         elem.remove();
 
         // 削除したタスクを tasks 配列から削除
-        const index = tasks.indexOf(task);
+        const index = tasks.findIndex((t) => t.name === task.name);
         if (index > -1) {
           tasks.splice(index, 1);
         }
@@ -57,7 +62,7 @@ form.addEventListener("submit", (e) => {
   }
 
   const todo = input.value.trim();
-  tasks.push(todo);
+  tasks.push({ name: todo, status: "active" });
 
   // 新しいタスクを localStorage に保存
   localStorage.setItem("tasks", JSON.stringify({ tasks }));
@@ -75,6 +80,13 @@ form.addEventListener("submit", (e) => {
   // TODO: toggle が変化 (change) した際に label.style.textDecorationLine を変更しなさい
   toggle.addEventListener("change", () => {
     label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
+    const index = tasks.findIndex((t) => t.name === todo);
+    if (index > -1) {
+      tasks[index].status = toggle.checked ? "completed" : "active";
+    }
+    // ローカルストレージを更新
+    localStorage.setItem("tasks", JSON.stringify({ tasks }));
+    console.log("change::" + localStorage.getItem("tasks"));
   });
 
   const destroy = document.createElement("button");
@@ -83,7 +95,7 @@ form.addEventListener("submit", (e) => {
   destroy.addEventListener("click", () => {
     elem.remove();
     // 削除したタスクを tasks 配列から削除
-    const index = tasks.indexOf(todo);
+    const index = tasks.findIndex((t) => t.name === todo);
     if (index > -1) {
       tasks.splice(index, 1);
     }

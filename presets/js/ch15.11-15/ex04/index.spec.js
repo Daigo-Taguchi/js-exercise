@@ -46,7 +46,7 @@ function queryToDo(page, index) {
 
 test.describe("simple todo app", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/ch15.01-03/ex01");
+    await page.goto("/ch15.11-15/ex04");
   });
 
   test("no default todos", async ({ page }) => {
@@ -110,5 +110,13 @@ test.describe("simple todo app", () => {
     const label2 = todo2.getByText("質問表に質問を記載する");
     await expect(label2).toBeVisible();
     await expect(label2).toHaveCSS("text-decoration-line", "line-through");
+  });
+
+  // リロードしてもタスクが保存されていること
+  test("save task when reload", async ({ page }) => {
+    await addToDo(page, "質問表に質問を記載する");
+    await page.reload();
+
+    expect(await countToDos(page)).toBe(1);
   });
 });

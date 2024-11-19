@@ -2,57 +2,54 @@ const form = document.querySelector("#new-todo-form");
 const list = document.querySelector("#todo-list");
 const input = document.querySelector("#new-todo");
 
-const tasks = [];
-
 document.addEventListener("DOMContentLoaded", async () => {
   // localStorage からタスクの一覧を JSON オブジェクトで取得する
   // {tasks: [{name: "hoge", status: "active"},{name: "fuga", status: "completed"}]}
-  // という構造で保存する
-  const taskObj = JSON.parse(localStorage.getItem("tasks"));
-  console.log(taskObj);
-  if (taskObj && taskObj.tasks) {
-    taskObj.tasks.forEach((task) => {
-      tasks.push(task);
+  // {id: {name: "hoge", status: "completed"}} のように保存する
+  Object.keys(localStorage).forEach((id) => {
+    const task = JSON.parse(localStorage.getItem(id));
 
-      const elem = document.createElement("li");
+    // localStorage 内の value の構造が {name: "hoge", status: "active"} の形じゃなければ skip
+    if (!task || !task.name || !task.status) {
+      return;
+    }
 
-      const label = document.createElement("label");
-      label.textContent = task.name;
+    const elem = document.createElement("li");
+    elem.dataset.id = id;
 
-      const toggle = document.createElement("input");
-      toggle.type = "checkbox";
-      toggle.checked = task.status === "completed";
+    const label = document.createElement("label");
+    label.textContent = task.name;
 
-      label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
+    const toggle = document.createElement("input");
+    toggle.type = "checkbox";
+    toggle.checked = task.status === "completed";
 
-      const destroy = document.createElement("button");
-      destroy.textContent = "❌";
+    label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
 
-      destroy.addEventListener("click", () => {
-        elem.remove();
+    const destroy = document.createElement("button");
+    destroy.textContent = "❌";
 
-        // 削除したタスクを tasks 配列から削除
-        const index = tasks.findIndex((t) => t.name === task.name);
-        if (index > -1) {
-          tasks.splice(index, 1);
-        }
-        // ローカルストレージの更新
-        localStorage.setItem("tasks", JSON.stringify({ tasks }));
-      });
-
-      toggle.addEventListener("change", () => {
-        label.style.textDecorationLine = toggle.checked
-          ? "line-through"
-          : "none";
-      });
-
-      list.prepend(elem);
-      elem.appendChild(toggle);
-      elem.appendChild(label);
-      elem.appendChild(destroy);
+    destroy.addEventListener("click", () => {
+      elem.remove();
+      // ローカルストレージの更新
+      localStorage.removeItem(id);
     });
-  }
+
+    toggle.addEventListener("change", () => {
+      label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
+      const status = toggle.checked ? "completed" : "active";
+
+      // localStorage 内のタスクの状態を更新する
+      localStorage.setItem(id, JSON.stringify({ name: task.name, status }));
+    });
+
+    list.prepend(elem);
+    elem.appendChild(toggle);
+    elem.appendChild(label);
+    elem.appendChild(destroy);
+  });
 });
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -62,48 +59,114 @@ form.addEventListener("submit", (e) => {
   }
 
   const todo = input.value.trim();
-  tasks.push({ name: todo, status: "active" });
 
+  // 同一の名前のタスクを区別するために、UUID で id を振っている
+  const id = crypto.randomUUID();
   // 新しいタスクを localStorage に保存
-  localStorage.setItem("tasks", JSON.stringify({ tasks }));
+  localStorage.setItem(id, JSON.stringify({ name: todo, status: "active" }));
 
   // new-todo の中身は空にする
   input.value = "";
 
   const elem = document.createElement("li");
+  elem.dataset.id = id;
+  console.log(id);
 
   const label = document.createElement("label");
   label.textContent = todo;
 
   const toggle = document.createElement("input");
   toggle.type = "checkbox";
-  // TODO: toggle が変化 (change) した際に label.style.textDecorationLine を変更しなさい
+
   toggle.addEventListener("change", () => {
     label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
-    const index = tasks.findIndex((t) => t.name === todo);
-    if (index > -1) {
-      tasks[index].status = toggle.checked ? "completed" : "active";
-    }
+    const status = toggle.checked ? "completed" : "active";
+
     // ローカルストレージを更新
-    localStorage.setItem("tasks", JSON.stringify({ tasks }));
-    console.log("change::" + localStorage.getItem("tasks"));
+    localStorage.setItem(id, JSON.stringify({ name: todo, status }));
   });
 
   const destroy = document.createElement("button");
   destroy.textContent = "❌";
-  // TODO: destroy がクリック (click) された場合に elem を削除しなさい
+
   destroy.addEventListener("click", () => {
     elem.remove();
-    // 削除したタスクを tasks 配列から削除
-    const index = tasks.findIndex((t) => t.name === todo);
-    if (index > -1) {
-      tasks.splice(index, 1);
-    }
+
     // ローカルストレージを更新
-    localStorage.setItem("tasks", JSON.stringify({ tasks }));
+    localStorage.removeItem(id);
   });
 
   // TODO: elem 内に toggle, label, destroy を追加しなさい
+  list.prepend(elem);
+  elem.appendChild(toggle);
+  elem.appendChild(label);
+  elem.appendChild(destroy);
+});
+
+window.addEventListener("storage", (event) => {
+  console.log("発火");
+
+  // newValue が null の場合はタスクが削除された
+  if (event.newValue === null) {
+    // 削除されたタスクを画面からも削除
+    console.log("削除" + event.key);
+    const itemToDelete = list.querySelector(`li[data-id="${event.key}"]`);
+    if (itemToDelete) {
+      console.log("check");
+      itemToDelete.remove();
+    }
+    return; // 削除時は以降の処理をスキップ
+  }
+
+  const newTask = JSON.parse(event.newValue);
+  const existingTask = list.querySelector(`li[data-id="${event.key}"]`);
+
+  // 既存のタスクの更新の場合
+  if (existingTask) {
+    const label = existingTask.querySelector("label");
+    const toggle = existingTask.querySelector("input[type='checkbox']");
+
+    label.textContent = newTask.name;
+    toggle.checked = newTask.status === "completed";
+    label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
+    return;
+  }
+
+  // 新規タスクの追加の場合
+  const elem = document.createElement("li");
+  elem.dataset.id = event.key;
+
+  const label = document.createElement("label");
+
+  label.textContent = newTask.name;
+
+  const toggle = document.createElement("input");
+  toggle.type = "checkbox";
+  toggle.checked = newTask.status === "completed";
+
+  label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
+
+  const destroy = document.createElement("button");
+  destroy.textContent = "❌";
+
+  destroy.addEventListener("click", () => {
+    elem.remove();
+
+    // ローカルストレージを更新
+    localStorage.removeItem(event.key);
+  });
+
+  toggle.addEventListener("change", () => {
+    label.style.textDecorationLine = toggle.checked ? "line-through" : "none";
+    const status = toggle.checked ? "completed" : "active";
+
+    // localStorage 内のタスクの状態を更新する
+    localStorage.setItem(
+      event.key,
+      JSON.stringify({ name: newTask.name, status })
+    );
+  });
+
   list.prepend(elem);
   elem.appendChild(toggle);
   elem.appendChild(label);

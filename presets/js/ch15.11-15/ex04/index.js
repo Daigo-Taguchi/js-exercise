@@ -1,3 +1,7 @@
+// localStorage の存在確認を行うことでエラーを回避する
+// 本コードを localStorage で管理する方法に寄せてしまったのでほとんど動かなくなってしまうため
+// 試すことができなかった
+
 const form = document.querySelector("#new-todo-form");
 const list = document.querySelector("#todo-list");
 const input = document.querySelector("#new-todo");

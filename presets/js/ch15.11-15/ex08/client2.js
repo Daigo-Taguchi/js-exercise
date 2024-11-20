@@ -8,7 +8,11 @@ ws.on("open", () => {
 
 ws.on("message", (data) => {
   console.log("Received message:", data.toString());
-  ws.send("Hello from client 2"); // 2つ目のクライアントからメッセージ送信
+  const dataObj = JSON.parse(data);
+
+  ws.send(
+    JSON.stringify({ id: dataObj.id, message: "Hello," + dataObj.message })
+  ); // 2つ目のクライアントからメッセージ送信
 });
 
 ws.on("close", () => {

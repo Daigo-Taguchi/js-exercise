@@ -11,9 +11,7 @@ wss.on("connection", (ws) => {
     console.log(message, `wait ${waitTIme}ms`);
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN && client != ws) {
-        console.log("if文到達");
         setTimeout(() => {
-          console.log("send!!");
           client.send(message);
         }, waitTIme);
       }

@@ -34,7 +34,7 @@ function encrypt64(text, key) {
 async function writeKey(key) {
   // ここを埋める（fs.promisesで鍵を保存）
   await fs.writeFile(
-    "key.json",
+    "ex03/key.json",
     JSON.stringify({ key: key.toString("base64") })
   );
 }
@@ -42,12 +42,12 @@ async function writeKey(key) {
 // encrypt64の返り値を、JSON形式でファイルに保存する(非同期)
 async function writeEncrypt64(data) {
   // ここを埋める（fs.promisesで暗号データを保存）
-  await fs.writeFile("encrypted.json", JSON.stringify(data));
+  await fs.writeFile("ex03/encrypted.json", JSON.stringify(data));
 }
 
 async function readKey() {
   // ここを埋める（return Promise<鍵>）
-  const key = await fs.readFile("key.json");
+  const key = await fs.readFile("ex03/key.json");
   const parsed = JSON.parse(key);
   return Buffer.from(parsed.key, "base64");
 }
@@ -55,7 +55,7 @@ async function readKey() {
 // ファイルから暗号データを読み込む (非同期)
 async function readEncrypt64() {
   // ここを埋める（return Promise<data>）
-  const data = await fs.readFile("encrypted.json");
+  const data = await fs.readFile("ex03/encrypted.json");
   return JSON.parse(data);
 }
 

@@ -31,3 +31,32 @@ async function startChild() {
 }
 
 // TODO: ここに処理を書く
+// 子プロセスを再起動する関数
+async function restartChild() {
+  let [code, signal] = await startChild();
+  console.log(`Child process exited with code ${code} and signal ${signal}`);
+
+  // 以上終了した場合は再起動する
+  while (code !== 0) {
+    console.log("Restarting child process");
+    [code, signal] = await startChild();
+    console.log(`Child process exited with code ${code} and signal ${signal}`);
+  }
+}
+
+// シグナルをトラップして子プロセスに通知する
+function handleSignal(signal) {
+  if (child) {
+    console.log(`Sending ${signal} to child process`);
+    child.kill(signal);
+  }
+  process.exit();
+}
+
+// 監視するシグナルを設定
+const signals = ["SIGINT", "SIGTERM"];
+signals.forEach((signal) => {
+  process.on(signal, () => handleSignal(signal));
+});
+
+restartChild();

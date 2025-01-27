@@ -1,7 +1,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-const GITHUB_TOKEN = 'your token'; // GitHub トークンを設定
+const GITHUB_TOKEN = 'your-token'; // GitHub トークンを設定
 
 // verbose オプションでログを出力する
 function logVerbose(verbose, message) {
@@ -10,7 +10,7 @@ function logVerbose(verbose, message) {
   }
 }
 
-async function createIssue(repo, title, body, verbose = false) {
+export async function createIssue(repo, title, body, verbose = false) {
   const [owner, repoName] = repo.split('/');
   try {
     const response = await fetch(
@@ -50,7 +50,7 @@ async function createIssue(repo, title, body, verbose = false) {
   }
 }
 
-async function closeIssue(repo, issueNumber, verbose = false) {
+export async function closeIssue(repo, issueNumber, verbose = false) {
   const [owner, repoName] = repo.split('/');
   try {
     const response = await fetch(
@@ -84,7 +84,7 @@ async function closeIssue(repo, issueNumber, verbose = false) {
   }
 }
 
-async function listIssues(repo, verbose = false) {
+export async function listIssues(repo, verbose = false) {
   const [owner, repoName] = repo.split('/');
   try {
     const url = new URL(
@@ -119,64 +119,72 @@ async function listIssues(repo, verbose = false) {
   }
 }
 
-// yargs ライブラリを使用してコマンドライン引数を処理
-yargs(hideBin(process.argv))
-  .command(
-    'create <repo> <title> <body>',
-    'Create a new issue',
-    (yargs) => {
-      yargs
-        .positional('repo', {
+if (import.meta.url === `file://${process.argv[1]}`) {
+  // yargs ライブラリを使用してコマンドライン引数を処理
+  yargs(hideBin(process.argv))
+    .command(
+      'create <repo> <title> <body>',
+      'Create a new issue',
+      (yargs) => {
+        yargs
+          .positional('repo', {
+            describe: 'Repository in owner/repo format',
+            type: 'string',
+          })
+          .positional('title', {
+            describe: 'Title of the issue',
+            type: 'string',
+          })
+          .positional('body', {
+            describe: 'Body of the issue',
+            type: 'string',
+          });
+      },
+      (argv) => {
+        createIssue(argv.repo, argv.title, argv.body, argv.verbose);
+      }
+    )
+    .command(
+      'close <repo> <issueNumber>',
+      'Close an issue',
+      (yargs) => {
+        yargs
+          .positional('repo', {
+            describe: 'Repository in owner/repo format',
+            type: 'string',
+          })
+          .positional('issueNumber', {
+            describe: 'Issue number to close',
+            type: 'number',
+          });
+      },
+      (argv) => {
+        closeIssue(argv.repo, argv.issueNumber, argv.verbose);
+      }
+    )
+    .command(
+      'list <repo>',
+      'List open issues',
+      (yargs) => {
+        yargs.positional('repo', {
           describe: 'Repository in owner/repo format',
           type: 'string',
-        })
-        .positional('title', { describe: 'Title of the issue', type: 'string' })
-        .positional('body', { describe: 'Body of the issue', type: 'string' });
-    },
-    (argv) => {
-      createIssue(argv.repo, argv.title, argv.body, argv.verbose);
-    }
-  )
-  .command(
-    'close <repo> <issueNumber>',
-    'Close an issue',
-    (yargs) => {
-      yargs
-        .positional('repo', {
-          describe: 'Repository in owner/repo format',
-          type: 'string',
-        })
-        .positional('issueNumber', {
-          describe: 'Issue number to close',
-          type: 'number',
         });
-    },
-    (argv) => {
-      closeIssue(argv.repo, argv.issueNumber, argv.verbose);
-    }
-  )
-  .command(
-    'list <repo>',
-    'List open issues',
-    (yargs) => {
-      yargs.positional('repo', {
-        describe: 'Repository in owner/repo format',
-        type: 'string',
-      });
-    },
-    (argv) => {
-      listIssues(argv.repo, argv.verbose);
-    }
-  )
-  .option('v', {
-    alias: 'verbose',
-    type: 'boolean',
-    description: 'Enable verbose logging',
-  })
-  .option('h', {
-    alias: 'help',
-    type: 'boolean',
-    description: 'Show help',
-  })
-  .help()
-  .strict().argv;
+      },
+      (argv) => {
+        listIssues(argv.repo, argv.verbose);
+      }
+    )
+    .option('v', {
+      alias: 'verbose',
+      type: 'boolean',
+      description: 'Enable verbose logging',
+    })
+    .option('h', {
+      alias: 'help',
+      type: 'boolean',
+      description: 'Show help',
+    })
+    .help()
+    .strict().argv;
+}

@@ -1,12 +1,13 @@
 import { closeIssue, createIssue, listIssues } from '.';
-import { jest } from '@jest/globals';
+import { beforeAll, jest } from '@jest/globals';
+import { setupPolly } from 'setup-polly-jest';
+
+const repo = 'owner/repo';
+const title = 'Test Issue';
+const body = 'This is a test issue';
 
 describe('Github Issue Tests', () => {
   const mockFetch = jest.fn();
-
-  const repo = 'owner/repo';
-  const title = 'Test Issue';
-  const body = 'This is a test issue';
 
   beforeAll(() => {
     global.fetch = mockFetch;
@@ -128,5 +129,26 @@ describe('Github Issue Tests', () => {
 
     consoleLogSpy.mockRestore();
     consoleErrorSpy.mockRestore();
+  });
+});
+
+describe('polly test', () => {
+  const context = setupPolly({ logLevel: 'info' });
+  test('create issue test', async () => {
+    context.polly.configure({ recordIfMissing: true });
+
+    await createIssue(repo, title, body);
+
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+
+    expect(consoleLogSpy).toHaveBeenCalledWith('Issue created: hoge');
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
+
+    consoleLogSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
+
+    await polly.stop();
   });
 });

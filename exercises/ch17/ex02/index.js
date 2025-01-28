@@ -1,7 +1,8 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import 'dotenv/config';
 
-const GITHUB_TOKEN = 'your-token'; // GitHub トークンを設定
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // GitHub トークンを設定
 
 // verbose オプションでログを出力する
 function logVerbose(verbose, message) {

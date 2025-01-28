@@ -6,13 +6,14 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "node --trace-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand"
   },
   "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@pollyjs/adapter-fetch": "^6.0.6",
+    "@pollyjs/adapter-node-http": "^6.0.6",
     "@pollyjs/core": "^6.0.6",
+    "@pollyjs/persister-fs": "^6.0.6",
     "@pollyjs/persister-rest": "^6.0.6",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
@@ -21,5 +22,8 @@
     "setup-polly-jest": "^0.11.0",
     "yargs": "^17.7.2"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
 }

@@ -1,27 +1,39 @@
 import eslintConfigPrettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default [
   {
+    ignores: ['ex01/format_sample.js'],
+  },
+  {
     files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.jest,
+      },
+    },
+    // eslint-config-google から共通設定を利用したかったが、flat-config に対応しておらず、
+    // flat-config で利用できないルールを内部で利用しているため、手動で rules を移植した
     rules: {
       'no-cond-assign': 'off',
       'no-irregular-whitespace': 'error',
       'no-unexpected-multiline': 'error',
-      curly: ['error', 'multi-line'],
+      'no-caller': 'error',
+      'guard-for-in': 'error',
       'no-extend-native': 'error',
       'no-extra-bind': 'error',
-      'no-caller': 'error',
       'no-invalid-this': 'error',
       'no-multi-spaces': 'error',
-      'no-multi-str': 'error',
       'no-new-wrappers': 'error',
       'no-throw-literal': 'error',
       'no-with': 'error',
       'prefer-promise-reject-errors': 'error',
       'no-unused-vars': ['error', { args: 'none' }],
-      'array-bracket-newline': 'off', // eslint:recommended
+      'array-bracket-newline': 'off',
       'array-bracket-spacing': ['error', 'never'],
-      'array-element-newline': 'off', // eslint:recommended
+      'array-element-newline': 'off',
       'block-spacing': ['error', 'never'],
       'brace-style': 'error',
       camelcase: ['error', { properties: 'never' }],
@@ -98,20 +110,18 @@ export default [
       'spaced-comment': ['error', 'always'],
       'switch-colon-spacing': 'error',
       'arrow-parens': ['error', 'always'],
-      'constructor-super': 'error', // eslint:recommended
+      'constructor-super': 'error',
       'generator-star-spacing': ['error', 'after'],
-      'no-new-symbol': 'error', // eslint:recommended
-      'no-this-before-super': 'error', // eslint:recommended
+      'no-new-symbol': 'error',
+      'no-this-before-super': 'error',
       'no-var': 'error',
       'prefer-const': ['error', { destructuring: 'all' }],
       'prefer-rest-params': 'error',
       'prefer-spread': 'error',
       'rest-spread-spacing': 'error',
       'yield-star-spacing': ['error', 'after'],
+      'no-undef': 'error',
     },
-  },
-  {
-    ignores: ['ex01/format_sample.js'],
   },
   eslintConfigPrettier,
 ];

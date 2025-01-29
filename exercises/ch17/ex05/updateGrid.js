@@ -1,6 +1,5 @@
-import { ROWS } from '.';
 // Life Game のルールに従ってセルを更新する
-export function updateGrid(grid) {
+export function updateGrid(grid, rows, cols) {
   // 新しいグリッドを作成
   const nextGrid = grid.map((arr) => [...arr]);
 
@@ -16,8 +15,8 @@ export function updateGrid(grid) {
     [1, 1],
   ];
 
-  for (let row = 0; row < ROWS; row++) {
-    for (let col = 0; col < COLS; col++) {
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
       // 周囲のセルの生存数を数えて nextGrid[row][col] に true or false を設定する (実装してね)
       let liveNeighbors = 0;
 
@@ -27,7 +26,7 @@ export function updateGrid(grid) {
         const newCol = col + dy;
 
         // グリッドの外に行かないように周囲のセルの状態を確認する
-        if (newRow > 0 && newRow < ROWS && newCol > 0 && newCol < COLS) {
+        if (newRow > 0 && newRow < rows && newCol > 0 && newCol < cols) {
           if (grid[newRow][newCol]) {
             liveNeighbors++;
           }

@@ -1,3 +1,6 @@
+import { renderGrid } from './renderGrid.js';
+import { updateGrid } from './updateGrid.js';
+
 // 50 x 50 の盤面とする
 const ROWS = 50;
 const COLS = 50;
@@ -34,15 +37,15 @@ canvas.addEventListener('click', function (evt) {
   const col = Math.floor(pos.x / RESOLUTION);
   grid[row][col] = !grid[row][col];
   sound.cloneNode().play();
-  renderGrid(grid);
+  renderGrid(grid, ROWS, COLS, ctx, RESOLUTION);
 });
 
 // requestAnimationFrame によって一定間隔で更新・描画を行う
 // NOTE: リフレッシュレートの高い画面では速く実行される (これを防ぐ場合は下記の例を参照)
 // https://developer.mozilla.org/ja/docs/Web/API/Window/requestAnimationFrame
 function update() {
-  grid = updateGrid(grid);
-  renderGrid(grid);
+  grid = updateGrid(grid, ROWS, COLS);
+  renderGrid(grid, ROWS, COLS, ctx, RESOLUTION);
   animationId = requestAnimationFrame(update);
 }
 
@@ -63,4 +66,4 @@ pauseButton.addEventListener('click', () => {
   animationId = null;
 });
 
-renderGrid(grid);
+renderGrid(grid, ROWS, COLS, ctx, RESOLUTION);

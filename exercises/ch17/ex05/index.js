@@ -19,7 +19,7 @@ canvas.height = COLS * RESOLUTION;
 let animationId = null;
 
 // NOTE: download from https://soundeffect-lab.info/sound/button/mp3/decision1.mp3
-const sound = new Audio('/ch15.04-10/ex10/decision1.mp3');
+const sound = new Audio('./decision1.mp3');
 
 // ライフゲームのセル (true or false) をランダムに初期化する
 let grid = new Array(ROWS)

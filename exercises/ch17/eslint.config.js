@@ -3,7 +3,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['ex01/format_sample.js'],
+    ignores: ['ex01/format_sample.js', 'ex09/task.flow.js', 'ex09/caller.js'],
   },
   {
     files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
